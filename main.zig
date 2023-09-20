@@ -7,14 +7,15 @@ fn testIncrementNotify(v: *usize, e: *ResetEvent) void {
     e.set();
 }
 
-pub fn update() callconv(.C) void {
+pub fn update() void {
     var event = ResetEvent{};
     var value: usize = 0;
     const thread = Thread.spawn(.{}, testIncrementNotify, .{ &value, &event })
         catch unreachable;
     thread.detach();
     event.wait();
-    std.debug.print("value: {}\n", .{ value });
+    std.io.getStdOut().writer().print("value: {}\n", .{ value })
+        catch unreachable;
 }
 
 pub fn main() void { 
