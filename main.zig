@@ -18,6 +18,7 @@ pub fn update() void {
         catch unreachable;
 }
 
-pub fn main() void { 
+pub fn main() void {
+    // calling join or detach from main browser thread causes issues
     _ = Thread.spawn(.{}, update, .{}) catch unreachable;
 }
