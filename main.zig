@@ -18,7 +18,9 @@ pub fn update() void {
         catch unreachable;
 }
 
-pub fn main() void {
-    // calling join or detach from main browser thread causes issues
-    _ = Thread.spawn(.{}, update, .{}) catch unreachable;
+var update_thread: Thread = undefined;
+
+pub fn main() void { 
+    // can't block for join/detach on main browser thread, must spawn a pthread
+    update_thread = Thread.spawn(.{}, update, .{}) catch unreachable;
 }
