@@ -64,10 +64,10 @@ pub fn build(b: *Build) !void {
         "-sINITIAL_MEMORY=167772160",
         //"-sEXPORTED_FUNCTIONS=_main,__builtin_return_address",
     });
-    if (optimize == .Debug or optimize == .ReleaseSafe) {
-        emcc_command.addArgs(&[_][]const u8{
-            "-sUSE_OFFSET_CONVERTER",
-        });
-    }
+    // USE_OFFSET_CONVERTER required for @returnAddress used in
+    // std.mem.Allocator interface
+    emcc_command.addArgs(&[_][]const u8{
+        "-sUSE_OFFSET_CONVERTER",
+    });
     b.getInstallStep().dependOn(&emcc_command.step);
 }
