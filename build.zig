@@ -9,7 +9,9 @@ pub fn build(b: *Build) !void {
     const optimize = b.standardOptimizeOption(.{});
     const lib = b.addStaticLibrary(.{
         .name = "lib",
-        .root_source_file = .{ .path = "main.zig" },
+        .root_source_file = .{
+            .src_path = .{ .sub_path = "main.zig", .owner = b },
+        },
         .target = b.resolveTargetQuery(.{
             .cpu_arch = .wasm32,
             .cpu_model = .{ .explicit = &std.Target.wasm.cpu.mvp },
